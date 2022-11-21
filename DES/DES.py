@@ -48,6 +48,7 @@ def init_perm(msg):
     return hex_val
 
 
+# It takes 32-bits input and converts it into 48-bits output
 def expansion_perm(msg):
     expan_perm = [32, 1, 2, 3, 4, 5,
                   4, 5, 6, 7, 8, 9,
@@ -78,6 +79,9 @@ def xor(left, right):
 
 
 def rounds(round_val):
+    # Total number of s-box is 8 (each s-box is 4x16 matrix)
+    # each s-box takes a 6-bit input and gives out a 4-bit output
+    # 48-bits --> |s-box| --> 32-bits
     s = []
     if round_val == 1:
         s = [[14, 4, 13, 1, 2, 15, 11, 8, 3, 10, 6, 12, 5, 9, 0, 7],
@@ -286,6 +290,7 @@ def final_perm(msg):
     return hex_val
 
 
+# This functions is to convert input into valid size block
 def valid_block_size(msg):
     m_len = len(msg)
     final = msg
