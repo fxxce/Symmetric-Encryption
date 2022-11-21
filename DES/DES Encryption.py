@@ -264,7 +264,7 @@ def valid_block_size(msg):
     return msg
 
 
-def main_func(plaintext, key):
+def des_encryption(plaintext, key):
     # initial perm
     ip = h2b(init_perm(plaintext))
     left = ip[0:32]
@@ -303,4 +303,4 @@ des_key = input("Enter Key in Hexadecimal (0-9, A-F): ").upper()
 des_key = valid_block_size(des_key)
 
 # encrypted message = 3F2F06C4EC303757
-main_func(message, des_key)
+des_encryption(message, des_key)
