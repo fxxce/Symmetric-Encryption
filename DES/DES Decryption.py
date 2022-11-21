@@ -48,6 +48,7 @@ def init_perm(msg):
     return hex_val
 
 
+# It takes 32-bits input and converts it into 48-bits output
 def expansion_perm(msg):
     expan_perm = [32, 1, 2, 3, 4, 5,
                   4, 5, 6, 7, 8, 9,
@@ -78,6 +79,9 @@ def xor(left, right):
 
 
 def rounds(round_val):
+    # Total number of s-box is 8 (each s-box is 4x16 matrix)
+    # each s-box takes a 6-bit input and gives out a 4-bit output
+    # 48-bits --> |s-box| --> 32-bits
     s = []
     if round_val == 1:
         s = [[14, 4, 13, 1, 2, 15, 11, 8, 3, 10, 6, 12, 5, 9, 0, 7],
@@ -184,8 +188,8 @@ def key_perm_choice1(msg):
     return hex_val
 
 
-def lc_shift(msg):
-    # round = [1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15,16]
+def inv_lc_shift(msg):
+      # round = [1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15,16]
     bit_shift = [1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1]
     key = key_perm_choice1(msg)
     key = h2b(key)
@@ -251,6 +255,7 @@ def final_perm(msg):
     return hex_val
 
 
+# This functions is to convert input into valid size block
 def valid_block_size(msg):
     m_len = len(msg)
     final = msg
@@ -265,13 +270,13 @@ def valid_block_size(msg):
     return msg
 
 
-def main_func(plaintext, key):
+def des_decryption(plaintext, key):
     # initial perm
     ip = h2b(init_perm(plaintext))
     left = ip[0:32]
     right = ip[32:64]
     lst = []
-    keys = lc_shift(key)
+    keys = inv_lc_shift(key)
     for i in range(0, 16):
         subkey = h2b(key_gen_perm_choice2(keys[i]))
         encode = expansion_perm(right)
@@ -299,9 +304,9 @@ message = input("Enter message in Hexadecimal (0-9, A-F): ").upper()
 message = valid_block_size(message)
 
 print("----------------------------------------------------------------------------------")
-# key = fed9876543210cba
+# key = FED9876543210CBA
 des_key = input("Enter Key in Hexadecimal (0-9, A-F): ").upper()
 des_key = valid_block_size(des_key)
 
 # decrypted message = ABC0123456789DEF
-main_func(message, des_key)
+des_decryption(message, des_key)
