@@ -8,7 +8,7 @@ def sc_encryption(st, shift):
         if i == " ":
             res = res + space_substitute[random.randint(0, 9)]
         elif 48 <= ord(i) <= 57:
-            res = res + chr((ord(i) + shift - 48) + 48)
+            res = res + chr((ord(i) + shift - 48) % 10 + 48)
         elif i.isupper():
             res = res + chr((ord(i) + shift - 65) % 26 + 65)
         else:
@@ -23,7 +23,7 @@ def sc_decryption(st, shift):
         if i in space_substitute:
             res = res + " "
         elif 48 <= ord(i) <= 57:
-            res = res + chr((ord(i) - shift - 48) + 48)
+            res = res + chr((ord(i) - shift - 48) % 10 + 48)
         elif i.isupper():
             res = res + chr((ord(i) - shift - 65) % 26 + 65)
         else:
